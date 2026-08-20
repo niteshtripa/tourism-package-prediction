@@ -1,0 +1,9 @@
+Xtrain.csv
+Xtest.csv
+ytrain.csv
+ytest.csv
+mlflow.db
+mlruns/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
