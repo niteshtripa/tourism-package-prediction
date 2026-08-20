@@ -285,8 +285,11 @@ code('def run(cmd, redact=None):\n'
      'if status.stdout.strip():\n'
      '    run(["git", "commit", "-m", "Update project files from notebook run"])\n'
      '    push_url = f"https://{GH_TOKEN}@github.com/{REPO}.git"\n'
-     '    run(["git", "push", push_url, f"HEAD:{BRANCH}"], redact=GH_TOKEN)\n'
-     '    print("Pushed changes to", REPO_URL)\n'
+     '    push_result = run(["git", "push", push_url, f"HEAD:{BRANCH}"], redact=GH_TOKEN)\n'
+     '    if push_result.returncode == 0:\n'
+     '        print("Pushed changes to", REPO_URL)\n'
+     '    else:\n'
+     '        print("Push failed — see the error above (e.g. pull remote changes first).")\n'
      'else:\n'
      '    print("Nothing to commit — working tree already matches the last push to", REPO_URL)')
 
