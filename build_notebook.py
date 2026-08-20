@@ -357,22 +357,41 @@ md("After the pipeline finishes, the trained model is committed to `tourism_proj
    "launches the app at a public `...streamlit.app` URL.")
 
 # ---------------------------------------------------------------- Output Evaluation
+import base64
+import os as _os
+
+STREAMLIT_APP_URL = "https://tourism-package-prediction-gqebjzdhhzrn33gpitu3mw.streamlit.app/"
+SCREENSHOT_DIR = _os.path.join("docs", "screenshots")
+
+
+def embed_image(filename, alt):
+    path = _os.path.join(SCREENSHOT_DIR, filename)
+    if _os.path.exists(path):
+        with open(path, "rb") as f:
+            b64 = base64.b64encode(f.read()).decode("ascii")
+        return f"![{alt}](data:image/png;base64,{b64})"
+    return f"_(screenshot `{filename}` not found in `{SCREENSHOT_DIR}/` — add it and rebuild)_"
+
+
 md("# Output Evaluation")
 
 md("### GitHub\n\n"
    f"- **Repository:** {REPO_URL}\n"
    f"- **Actions workflow runs:** {REPO_URL}/actions\n\n"
-   "_Add a screenshot of the repository folder structure and a screenshot of a successful "
-   "workflow run here before submitting._")
+   "**Repository folder structure:**\n\n"
+   f"{embed_image('github_repo_structure.png', 'GitHub repository folder structure')}\n\n"
+   "**Successful GitHub Actions workflow run:**\n\n"
+   f"{embed_image('github_actions_run.png', 'Successful GitHub Actions workflow run')}")
 
 code('print("Repository:", REPO_URL)\n'
      'print("Actions:", REPO_URL + "/actions")')
 
 md("### Streamlit Community Cloud\n\n"
-   "- **App URL:** `<--- paste your https://...streamlit.app URL here after deploying --->`\n\n"
-   "_Add a screenshot of the deployed Streamlit app here before submitting._")
+   f"- **App URL:** {STREAMLIT_APP_URL}\n\n"
+   "**Deployed app making a live prediction:**\n\n"
+   f"{embed_image('streamlit_app_prediction.png', 'Streamlit app showing a prediction')}")
 
-code('STREAMLIT_APP_URL = "<--- paste your https://...streamlit.app URL here --->"\n'
+code(f'STREAMLIT_APP_URL = "{STREAMLIT_APP_URL}"\n'
      'print("Streamlit app:", STREAMLIT_APP_URL)')
 
 md('<font size=6 color="navyblue">Power Ahead!</font>\n\n---')
